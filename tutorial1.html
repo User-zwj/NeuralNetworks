@@ -1,0 +1,1947 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Intro to TensorFlow 2.x &mdash; NeuralNetworks 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Demonstration" href="sec1.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> NeuralNetworks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="sec1.html">Demonstration</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Intro to TensorFlow 2.x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Get-to-Know-TensorFlow2.x">Get to Know TensorFlow2.x</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#History-between-Keras-and-TensorFlow:">History between Keras and TensorFlow:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Keras-and-tf.keras">Keras and tf.keras</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Eager-Execution">Eager Execution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Eager-execution">Eager execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Graph-execution">Graph execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Why-TensorFlow-adopted-Eager-Execution?">Why TensorFlow adopted Eager Execution?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Tensors">Tensors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Create-tensors">Create tensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#indexing">indexing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Operations-with-tensors">Operations with tensors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Variables">Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Operations-with-variables">Operations with variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Extend">Extend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Hardware-selection-for-variables">Hardware selection for variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#function">function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gradient">gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Some-common-seen-commands-in-TensorFlow1.x">Some common seen commands in TensorFlow1.x</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NeuralNetworks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="sec1.html">Demonstration</a> &raquo;</li>
+        
+      <li>Intro to TensorFlow 2.x</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Tutorial1.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Intro-to-TensorFlow-2.x">
+<h1>Intro to TensorFlow 2.x<a class="headerlink" href="#Intro-to-TensorFlow-2.x" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># ! pip install tensorflow --upgrade</span>
+</pre></div>
+</div>
+</div>
+<p>Content - <a class="reference external" href="#Get-to-Know-TensorFlow2.x">Get to Know TensorFlow2.x</a> - <a class="reference external" href="#History-between-Keras-and-TensorFlow:">History between Keras and TensorFlow</a> - <a class="reference external" href="#Keras-and-tf.keras">Keras and tf.keras</a> - <a class="reference external" href="#Eager-Execution">Eager Execution</a> - <a class="reference external" href="#Eager-execution">Eager execution</a> - <a class="reference external" href="#Graph-execution">Graph execution</a> - <a class="reference external" href="#Why-TensorFlow-adopted-Eager-Execution?">Why TensorFlow adopted Eager Execution?</a> - <a class="reference external" href="#Tensors">Tensors</a> - <a class="reference external" href="#Create-tensors">Create tensors</a> -
+<a class="reference external" href="#indexing">indexing</a> - <a class="reference external" href="#Operations-with-tensors">Operations with tensors</a> - <a class="reference external" href="#Variables">Variables</a> - <a class="reference external" href="#Operations-with-variables">Operations with variables</a> - <a class="reference external" href="#Extend">Extend</a> - <a class="reference external" href="#Hardware-selection-for-variables">Hardware selection for variables</a> - <a class="reference external" href="#function">function</a> - <a class="reference external" href="#gradient">gradient</a> - <a class="reference external" href="#Some-common-seen-commands-in-TensorFlow1.x">Some common seen commands in TensorFlow1.x</a></p>
+</div>
+<div class="section" id="Get-to-Know-TensorFlow2.x">
+<h1>Get to Know TensorFlow2.x<a class="headerlink" href="#Get-to-Know-TensorFlow2.x" title="Permalink to this headline">¶</a></h1>
+<p><strong>TensorFlow</strong> is an end-to-end framework and platform designed to build and train machine learning models, especially deep learning models.</p>
+<p><strong>Keras</strong> is a deep learning API written in Python, running on top of the machine learning platform TensorFlow.</p>
+<div class="section" id="History-between-Keras-and-TensorFlow:">
+<h2>History between Keras and TensorFlow:<a class="headerlink" href="#History-between-Keras-and-TensorFlow:" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Keras was first developed by Francois Chollet for his own reserach in March 27th, 2015. Back then, TensorFlow hasn’t been developed. There weren’t too many deep learning libraries available - the popular ones included Torch, Theano, and Caffe.</p></li>
+<li><p>In order to train the neural networks, Keras required a <strong>backend</strong> (computational engine). Keras’s default backend was Theano until v1.1.0. At the same time, Google released TensorFlow. Keras started supporting it as a backend, and became the default starting from the release of Keras v1.1.0.</p>
+<ul>
+<li><p>Keras started making TensorFlow default due to its popularity; and TensorFlow users were also becoming increasingly drawn to the simplicity of the high-level Keras API.</p></li>
+</ul>
+</li>
+<li><p>Google announced TensorFlow 2.0 in June 2019, they declared that Keras is now the official high-level API of TensorFlow.</p></li>
+</ul>
+<p><a class="reference external" href="https://www.pyimagesearch.com/2019/10/21/keras-vs-tf-keras-whats-the-difference-in-tensorflow-2-0/">Link</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">keras</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2.4.1
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Keras-and-tf.keras">
+<h2>Keras and tf.keras<a class="headerlink" href="#Keras-and-tf.keras" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>tf.keras submodule was introduced in TensorFlow v1.10.0, integrating Keras directly within TensorFlow package itself.</p></li>
+<li><p>Release of Keras 2.3.0:</p>
+<ul>
+<li><p>It is the first release of Keras that brings the Keras package in sync with tf.keras</p></li>
+<li><p>It is the final release of Keras that will support multiple backends</p></li>
+<li><p>The keras package will only support bug fixes. Developers should start using tf.keras</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span> <span class="o">==</span> <span class="n">keras</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span> <span class="o">==</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Eager-Execution">
+<h1>Eager Execution<a class="headerlink" href="#Eager-Execution" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6">https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6</a></p>
+<p>Eager execution is a powerful execution environment that evaluates operations immediately. It does not build graphs, and the operations return actual values instead of computational graphs to run later. With Eager execution, TensorFlow calculates the values of tensors as they occur in your code.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># In Tensorflow 2.0, eager execution is enabled by default.</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">2.</span><span class="p">]]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>     <span class="c1">#Return results immediately</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hello, [[4.]]
+</pre></div></div>
+</div>
+<p>In TensorFlow1.x, the above code will return:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">(</span><span class="s2">&quot;MatMul:0&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="Eager-execution">
+<h2>Eager execution<a class="headerlink" href="#Eager-execution" title="Permalink to this headline">¶</a></h2>
+<p>Easy-to-build&amp;test</p>
+<p>Eager execution is easy to implement, and simplify the model building experience. Advantages of eager execution:</p>
+<ul class="simple">
+<li><p><strong>An intuitive interface</strong> with natural Python code and data structures;</p></li>
+<li><p><strong>Easier debugging</strong> with calling operations directly to inspect and test models;</p></li>
+<li><p><strong>Natural control flow</strong> with Python, instead of graph control flow; and</p></li>
+<li><p>Support for <strong>GPU &amp; TPU acceleration</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="Graph-execution">
+<h2>Graph execution<a class="headerlink" href="#Graph-execution" title="Permalink to this headline">¶</a></h2>
+<p>Efficient and fast</p>
+<p>Eager execution is slower than graph execution since eager execution runs all operations one-by-one in Python, it cannot take advantage of potential acceleration opportunities.</p>
+<p>Graphs are easy-to-optimize, simplify arithmetic operations. In graph execution, evaluation of all the operations happens only after we’ve called our program entirely. So, graph execution is - <strong>Very Fast</strong> - <strong>Very Flexible</strong> - <strong>Runs in parallel</strong>, even in sub-operation level; - <strong>Very efficient</strong>, on multiple devices - with <strong>GPU &amp; TPU acceleration</strong> capability</p>
+<p>Graph execution is ideal for large model training. For small model training, beginners, eager execution is better suited.</p>
+</div>
+<div class="section" id="Why-TensorFlow-adopted-Eager-Execution?">
+<h2>Why TensorFlow adopted Eager Execution?<a class="headerlink" href="#Why-TensorFlow-adopted-Eager-Execution?" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Before version 2.0, TensorFlow prioritized graph execution because it was fast, effiicent, and flexible. But it is difficult to implement.</p></li>
+<li><p>PyTorch adopted a different approach and prioritized dynamic computation graphs, which is a similar concept to eager execution. Although they are not that efficient, it is intuitive and easy to implement. Then PyTorch became attractive for the newcommers.</p></li>
+<li><p>TensorFlow felt threatened, so the TensorFlow team adopted eager execution as the default execution method, and graph execution is optional.</p></li>
+</ul>
+<p>In TensorFlow 2.0, you can decorate a Python function using tf.function() to run it as a single graph object. With this new method, you can easily build models and gain all the graph execution benefits.</p>
+<p>Note: TensorFlow2.x, no session, no initialization</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">timeit</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">eager_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">])</span>
+
+<span class="n">graph_function</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">eager_function</span><span class="p">)</span>  <span class="c1">#run the same function with graph execution</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### eager execution</span>
+<span class="n">eager_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Tensor: shape=(5,), dtype=float32, numpy=array([ 1.,  4.,  9., 16., 25.], dtype=float32)&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### graph execution</span>
+<span class="n">graph_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Tensor(&#34;pow:0&#34;, shape=(5,), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Tensor: shape=(5,), dtype=float32, numpy=array([ 1.,  4.,  9., 16., 25.], dtype=float32)&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### compare the execution times</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eager time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eager_function</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">graph_function</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+Eager time: 0.00047989003360271454
+Graph time: 0.0005872081965208054
+</pre></div></div>
+</div>
+<p>For simple operations, graph execution does not always perform well because it has to spend the initial computing power to build a graph. If the code is ran 100 times, the results will change dramatically.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### compare the execution times</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eager time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eager_function</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">graph_function</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+tf.Tensor([ 1.  4.  9. 16. 25.], shape=(5,), dtype=float32)
+Eager time: 0.03065408207476139
+Graph time: 0.010782018303871155
+</pre></div></div>
+</div>
+<p>Let’s build a dummy neural network to compare the performances of eager and graph executions. No need to worry about the process of building the model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># TensorFlow imports</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">Dense</span>
+
+<span class="c1"># Model building</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Flatten</span><span class="p">()(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;softmax&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+
+<span class="c1"># Eager Execution</span>
+<span class="n">eager_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eager time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eager_model</span><span class="p">(</span><span class="n">input_data</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+
+<span class="c1">#Graph Execution</span>
+<span class="n">graph_model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">eager_model</span><span class="p">)</span> <span class="c1"># Wrap the model with tf.function</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph time:&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">graph_model</span><span class="p">(</span><span class="n">input_data</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Eager time: 19.675863103941083
+Graph time: 8.229794163256884
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Tensors">
+<h1>Tensors<a class="headerlink" href="#Tensors" title="Permalink to this headline">¶</a></h1>
+<p>Tensors are TensorFlow’s multi-dimensional arrays with uniform type. They are <strong>immutable</strong>.</p>
+<p><a class="reference external" href="https://towardsdatascience.com/mastering-tensorflow-tensors-in-5-easy-steps-35f21998bb86">Ref</a></p>
+<div class="section" id="Create-tensors">
+<h2>Create tensors<a class="headerlink" href="#Create-tensors" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">t3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">t4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">limit</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">delta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor([[1 2 3 4 5]], shape=(1, 5), dtype=int32)
+tf.Tensor([[1. 1. 1. 1. 1.]], shape=(1, 5), dtype=float32)
+tf.Tensor([[0. 0. 0. 0. 0.]], shape=(1, 5), dtype=float32)
+tf.Tensor([1 2 3 4 5], shape=(5,), dtype=int32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## ragged tensor</span>
+<span class="n">ragged_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ragged</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ragged_tensor</span><span class="p">)</span>
+<span class="c1">## string tensor</span>
+<span class="n">string_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="s2">&quot;element1&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;element2&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;element3&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">string_tensor</span><span class="p">)</span>
+<span class="c1">## sparse tensor</span>
+<span class="c1">## when you have holes in your data, Sparse Tensors are to-go objects.</span>
+<span class="n">sparse_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">SparseTensor</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]],</span>
+                                      <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
+                                      <span class="n">dense_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">to_dense</span><span class="p">(</span><span class="n">sparse_tensor</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.RaggedTensor [[1, 2, 3], [4, 5], [6]]&gt;
+tf.Tensor([b&#39;element1&#39; b&#39;element2&#39; b&#39;element3&#39;], shape=(3,), dtype=string)
+tf.Tensor(
+[[ 25   0   0   0   0]
+ [  0   0   0   0   0]
+ [  0   0  50   0   0]
+ [  0   0   0   0   0]
+ [  0   0   0   0 100]], shape=(5, 5), dtype=int32)
+</pre></div></div>
+</div>
+<p>Attribute of tensors: - <code class="docutils literal notranslate"><span class="pre">.ndim</span></code> or <code class="docutils literal notranslate"><span class="pre">tf.rank(...).numpy()</span></code> - <code class="docutils literal notranslate"><span class="pre">.shape</span></code> - <code class="docutils literal notranslate"><span class="pre">tf.reshape(tensor1,[...])</span></code> - <code class="docutils literal notranslate"><span class="pre">tf.size(...).numpy()</span></code> - <code class="docutils literal notranslate"><span class="pre">.dtype</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rank_3_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],[[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">)</span>
+<span class="c1">## rank</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="c1">## shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1">## size</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="c1">## dtype</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[[ 0  1  2]
+  [ 3  4  5]]
+
+ [[ 6  7  8]
+  [ 9 10 11]]], shape=(2, 2, 3), dtype=int32)
+3
+3
+(2, 2, 3)
+12
+&lt;dtype: &#39;int32&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## reshape</span>
+<span class="n">reshape_tensor1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reshape_tensor1</span><span class="p">)</span>
+<span class="n">reshape_tensor2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reshape_tensor2</span><span class="p">)</span>
+<span class="n">reshape_tensor3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rank_3_tensor</span><span class="p">,[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1">#flatten the tensor</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reshape_tensor3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[[ 0  1]
+  [ 2  3]
+  [ 4  5]]
+
+ [[ 6  7]
+  [ 8  9]
+  [10 11]]], shape=(2, 3, 2), dtype=int32)
+tf.Tensor(
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]], shape=(2, 6), dtype=int32)
+tf.Tensor([ 0  1  2  3  4  5  6  7  8  9 10 11], shape=(12,), dtype=int32)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="indexing">
+<h2>indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rank_1_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_1_tensor</span><span class="p">)</span>
+<span class="c1">## only values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_1_tensor</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="c1">## indexing</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_1_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_1_tensor</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_1_tensor</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor([ 0  1  2  3  4  5  6  7  8  9 10 11], shape=(12,), dtype=int32)
+[ 0  1  2  3  4  5  6  7  8  9 10 11]
+0
+11
+[ 1  2  3  4  5  6  7  8  9 10]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rank_2_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_2_tensor</span><span class="p">)</span>
+<span class="c1">## indexing</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_2_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_2_tensor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_2_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rank_2_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]], shape=(2, 6), dtype=int32)
+[0 1 2 3 4 5]
+[ 6  7  8  9 10 11]
+0
+2
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Operations-with-tensors">
+<h2>Operations with tensors<a class="headerlink" href="#Operations-with-tensors" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>   <span class="c1">#if we didn&#39;t specify the dtype, it would be tf.int32</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## addition</span>
+<span class="n">add_tensors</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>    <span class="c1">#the same with a+b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">add_tensors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[ 3.  7.]
+ [11. 15.]], shape=(2, 2), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## element-wise multiplication</span>
+<span class="n">multiply_tensors</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>    <span class="c1">#the same with a*b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">multiply_tensors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[ 2. 12.]
+ [30. 56.]], shape=(2, 2), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## matrix multiplication</span>
+<span class="n">matmul_tensors</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matmul_tensors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[22. 34.]
+ [46. 74.]], shape=(2, 2), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## max value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+7.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## sum</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+16.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## argmx</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1 1]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## in softmax function</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[0.11920291 0.880797  ]
+ [0.11920291 0.880797  ]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">m</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[ 5 10]
+ [15 20]], shape=(2, 2), dtype=int32)
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Variables">
+<h1>Variables<a class="headerlink" href="#Variables" title="Permalink to this headline">¶</a></h1>
+<p>A TensorFlow Variable is the preferred object type representing a shared and persistent state that you can <strong>manipulate with any operation</strong>, including TensorFlow models.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## type1: pass a tf.constant()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">var_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span>
+<span class="c1">## type2: pass a single integer</span>
+<span class="n">var_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_b</span><span class="p">)</span>
+<span class="c1">## type3: pass a list</span>
+<span class="n">var_c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">==</span> <span class="n">var_c</span><span class="p">)</span>
+<span class="c1">## type4: pass a single string</span>
+<span class="n">var_d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_d</span><span class="p">)</span>
+<span class="c1">## type5: pass a list of strings</span>
+<span class="n">var_e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="s1">&#39;string1&#39;</span><span class="p">,</span><span class="s1">&#39;string2&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[0. 1.]
+ [2. 3.]], shape=(2, 2), dtype=float32)
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2, 2) dtype=float32, numpy=
+array([[0., 1.],
+       [2., 3.]], dtype=float32)&gt;
+&lt;tf.Variable &#39;Variable:0&#39; shape=() dtype=int32, numpy=10000&gt;
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2, 2) dtype=float32, numpy=
+array([[0., 1.],
+       [2., 3.]], dtype=float32)&gt;
+tf.Tensor(
+[[ True  True]
+ [ True  True]], shape=(2, 2), dtype=bool)
+&lt;tf.Variable &#39;Variable:0&#39; shape=() dtype=string, numpy=b&#39;string&#39;&gt;
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2,) dtype=string, numpy=array([b&#39;string1&#39;, b&#39;string2&#39;], dtype=object)&gt;
+</pre></div></div>
+</div>
+<p>Variable objects are built on top of Tensor objects.</p>
+<div class="line-block">
+<div class="line">Attribute of variables: - <code class="docutils literal notranslate"><span class="pre">.shape</span></code> - <code class="docutils literal notranslate"><span class="pre">tf.reshape(var1,[...])</span></code> - <code class="docutils literal notranslate"><span class="pre">tf.size(...).numpy()</span></code> - <code class="docutils literal notranslate"><span class="pre">tf.rank(...).numpy()</span></code> - <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> - <code class="docutils literal notranslate"><span class="pre">.value()</span></code></div>
+<div class="line">- every variable must specify its initial value - <code class="docutils literal notranslate"><span class="pre">.name</span></code> - If you don’t specify a <code class="docutils literal notranslate"><span class="pre">name</span></code>, TensorFlow assigns a default name - <code class="docutils literal notranslate"><span class="pre">.trainable</span></code> - <code class="docutils literal notranslate"><span class="pre">.device</span></code></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="c1">## The values stroed in the variables</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+<span class="c1">## The values stroed in the variables as NumPy object</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2, 2) dtype=float32, numpy=
+array([[0., 1.],
+       [2., 3.]], dtype=float32)&gt;
+(2, 2)
+4
+2
+tf.Tensor(
+[[0. 1.]
+ [2. 3.]], shape=(2, 2), dtype=float32)
+[[0. 1.]
+ [2. 3.]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">reshape_a1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">var_a</span><span class="p">,[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reshape_a1</span><span class="p">)</span>
+<span class="n">reshape_a2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">var_a</span><span class="p">,[</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reshape_a2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tf.Tensor(
+[[0.]
+ [1.]
+ [2.]
+ [3.]], shape=(4, 1), dtype=float32)
+tf.Tensor(
+[[0.]
+ [1.]
+ [2.]
+ [3.]], shape=(4, 1), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## name</span>
+
+<span class="n">var1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var1</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">var2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]],</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;myname&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var2</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">trainable</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Variable:0
+myname:0
+True
+/job:localhost/replica:0/task:0/device:CPU:0
+</pre></div></div>
+</div>
+<div class="section" id="Operations-with-variables">
+<h2>Operations with variables<a class="headerlink" href="#Operations-with-variables" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">var_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">],[</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Plus&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Minus&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Multiply&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Divide&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Matrix Multiply&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">@</span> <span class="n">var_a</span><span class="p">)</span>   <span class="c1">#matrix multipllication</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Modulo&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>       <span class="c1">#modulo</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Plus
+tf.Tensor(
+[[3. 4.]
+ [5. 6.]], shape=(2, 2), dtype=float32)
+
+Minus
+tf.Tensor(
+[[-1.  0.]
+ [ 1.  2.]], shape=(2, 2), dtype=float32)
+
+Multiply
+tf.Tensor(
+[[2. 4.]
+ [6. 8.]], shape=(2, 2), dtype=float32)
+
+Divide
+tf.Tensor(
+[[0.5 1. ]
+ [1.5 2. ]], shape=(2, 2), dtype=float32)
+
+Matrix Multiply
+tf.Tensor(
+[[ 7. 10.]
+ [15. 22.]], shape=(2, 2), dtype=float32)
+
+Modulo
+tf.Tensor(
+[[1. 0.]
+ [1. 0.]], shape=(2, 2), dtype=float32)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Extend">
+<h2>Extend<a class="headerlink" href="#Extend" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## assign</span>
+<span class="n">var_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">],[</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">]])</span>
+<span class="n">var_a</span><span class="o">.</span><span class="n">assign</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">],[</span><span class="mi">300</span><span class="p">,</span><span class="mi">400</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2, 2) dtype=float32, numpy=
+array([[100., 200.],
+       [300., 400.]], dtype=float32)&gt;
+tf.Tensor(
+[[100. 200.]
+ [300. 400.]], shape=(2, 2), dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">var_a</span><span class="o">.</span><span class="n">assign_add</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Variable &#39;Variable:0&#39; shape=(2, 2) dtype=float32, numpy=
+array([[101., 202.],
+       [303., 404.]], dtype=float32)&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## indexing</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="c1">## broadcasting</span>
+<span class="n">var_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">var_c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_b</span> <span class="o">*</span> <span class="n">var_c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[101. 202.]
+[303. 404.]
+101.0
+202.0
+tf.Tensor(
+[[ 5 10]
+ [15 20]], shape=(2, 2), dtype=int32)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Hardware-selection-for-variables">
+<h2>Hardware selection for variables<a class="headerlink" href="#Hardware-selection-for-variables" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Print what type of device our variable is processed with</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_a</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/job:localhost/replica:0/task:0/device:CPU:0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## tf.device: Set the device we want a particular calculation to be processed with</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;CPU:0&#39;</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],[</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">6.0</span><span class="p">]])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;GPU:0&#39;</span><span class="p">):</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>      <span class="c1">#should be GPU if it exists</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/job:localhost/replica:0/task:0/device:CPU:0
+/job:localhost/replica:0/task:0/device:CPU:0
+/job:localhost/replica:0/task:0/device:CPU:0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="function">
+<h1>function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">tf.gradients</span></code> is only valid in a graph context. In particular, it is valid in the context of a <code class="docutils literal notranslate"><span class="pre">tf.function</span></code> wrapper, where code is executing as a graph.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="n">stop_gradients</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+
+<span class="n">example</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;tf.Tensor: shape=(), dtype=float32, numpy=1.0&gt;,
+ &lt;tf.Tensor: shape=(), dtype=float32, numpy=1.0&gt;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="gradient">
+<h1>gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://www.tensorflow.org/guide/advanced_autodiff">Ref</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># tf.gradients</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">x_sq</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="k">with</span> <span class="n">t</span><span class="o">.</span><span class="n">stop_recording</span><span class="p">():</span>  <span class="c1">#See Ref for details</span>
+        <span class="n">y_sq</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">x_sq</span> <span class="o">+</span> <span class="n">y_sq</span>
+
+<span class="n">grad</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dz/dx:&#39;</span><span class="p">,</span> <span class="n">grad</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>  <span class="c1"># 2*x =&gt; 4</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dz/dy:&#39;</span><span class="p">,</span> <span class="n">grad</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dz/dx: tf.Tensor(4.0, shape=(), dtype=float32)
+dz/dy: None
+</pre></div></div>
+</div>
+<p>multiple tapes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape0</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape1</span><span class="p">:</span>
+    <span class="n">tape0</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">tape1</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">y1</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tape0</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">x0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>  <span class="c1"># cos(x) =&gt; 1.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tape1</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>   <span class="c1"># sigmoid(x1)*(1-sigmoid(x1)) =&gt; 0.25</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.0
+0.25
+</pre></div></div>
+</div>
+<p>higher-order gradient</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># Create a Tensorflow variable initialized to 1.0</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">t2</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">t1</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+    <span class="c1"># Compute the gradient inside the outer `t2` context manager</span>
+    <span class="c1"># which means the gradient computation is differentiable as well.</span>
+    <span class="n">dy_dx</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">d2y_dx2</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dy_dx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dy_dx:&#39;</span><span class="p">,</span> <span class="n">dy_dx</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>  <span class="c1"># 3 * x**2 =&gt; 3.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;d2y_dx2:&#39;</span><span class="p">,</span> <span class="n">d2y_dx2</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>  <span class="c1"># 6 * x =&gt; 6.0</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dy_dx: 3.0
+d2y_dx2: 6.0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Some-common-seen-commands-in-TensorFlow1.x">
+<h1>Some common seen commands in TensorFlow1.x<a class="headerlink" href="#Some-common-seen-commands-in-TensorFlow1.x" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">tf.Session()</span></code>, <code class="docutils literal notranslate"><span class="pre">tf.global_variables_initializer()</span></code>, <code class="docutils literal notranslate"><span class="pre">tf.placeholder</span></code> are being removed in TensorFlow2.x</p>
+<p>If you do want to use them, use <code class="docutils literal notranslate"><span class="pre">tf.compat.v1.Session()</span></code>, <code class="docutils literal notranslate"><span class="pre">tf.compat.v1.global_variables_initializer()</span></code>, <code class="docutils literal notranslate"><span class="pre">tf.compat.v1.placeholder</span></code> instead</p>
+<p><code class="docutils literal notranslate"><span class="pre">tf.gradients</span></code> is not supported when eager execution is enabled. Use <code class="docutils literal notranslate"><span class="pre">tf.GradientTape</span></code> instead.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## When eager execution is on, the result will be directly returned</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Tensor: shape=(2, 2), dtype=float32, numpy=
+array([[ 3.,  7.],
+       [11., 15.]], dtype=float32)&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## When eager execution is off, the result is hidden</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">disable_eager_execution</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>   <span class="c1">#if we didn&#39;t specify the dtype, it would be tf.int32</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">tensor_sum</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="n">tensor_sum</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tf.Tensor &#39;Add:0&#39; shape=(2, 2) dtype=float32&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## In TensorFlow1.x, this is the way to really run the code</span>
+<span class="c1">## session is removed in TensorFlow2.x</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tensor_sum</span><span class="o">.</span><span class="n">eval</span><span class="p">())</span>        <span class="c1">#way1 to print result</span>
+<span class="c1">#     print(sess.run(tensor_sum))     #way2 to print result</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 3.  7.]
+ [11. 15.]]
+</pre></div></div>
+</div>
+<p>(In TensorFlow1.x) <strong>Placeholders</strong> in TensorFlow are similar to variables and you can declare it using tf.placeholder. You dont have to provide an initial value and you can specify it at runtime with feed_dict argument inside Session.run , whereas in tf.Variable you can to provide initial value when you declare it.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Demonstration of placeholder</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+<span class="c1">#     print(sess.run(y))  # ERROR: will fail because x was not fed.</span>
+    <span class="n">rand_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">rand_array</span><span class="p">}))</span>  <span class="c1"># Will succeed.</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1.2372893 1.2466476 1.2848123 1.3270197 1.408318 ]
+ [1.5434198 1.2169448 1.565929  1.3188149 1.4794407]
+ [1.9835036 1.7217739 2.3466644 2.2340496 2.2978036]
+ [0.8756916 1.0449702 1.8397173 1.8703374 1.4189218]
+ [1.2161818 1.3499663 2.0907462 2.0469189 1.649347 ]]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="sec1.html" class="btn btn-neutral float-left" title="Demonstration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Wenjuan Zhang
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
