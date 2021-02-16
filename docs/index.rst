@@ -12,6 +12,7 @@ Welcome to NeuralNetworks's documentation!
 
    sec1
    sec2
+   sec3
 
 Indices and tables
 ==================
