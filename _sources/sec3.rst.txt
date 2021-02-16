@@ -1,7 +1,7 @@
-Tutorial 1
+Tutorial 3
 ==========
 
 
 .. toctree::
 
-   Tutorial1
+   Tutorial3

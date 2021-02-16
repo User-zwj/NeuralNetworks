@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial 1 &mdash; NeuralNetworks 1.0 documentation</title>
+  <title>Customization &mdash; NeuralNetworks 1.0 documentation</title>
   
 
   
@@ -30,12 +30,17 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial 4" href="sec4.html" />
+    <link rel="prev" title="Tutorial 3" href="sec3.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,8 +86,21 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook Example</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sec1.html">Tutorial 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sec2.html">Tutorial 2</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="sec3.html">Tutorial 3</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Customize-the-activation-function">Customize the activation function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Example-1">Example 1</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Cutomize-the-loss-function">Cutomize the loss function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sec4.html">Tutorial 4</a></li>
 </ul>
 
             
@@ -129,13 +147,15 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Tutorial 1</li>
+          <li><a href="sec3.html">Tutorial 3</a> &raquo;</li>
+        
+      <li>Customization</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/tutorial3.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Tutorial3.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -148,9 +168,445 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tutorial-1">
-<h1>Tutorial 1<a class="headerlink" href="#tutorial-1" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Customization">
+<h1>Customization<a class="headerlink" href="#Customization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Customize-the-activation-function">
+<h2>Customize the activation function<a class="headerlink" href="#Customize-the-activation-function" title="Permalink to this headline">¶</a></h2>
+<p>Modification based on <a class="reference external" href="https://medium.com/&#64;chinesh4/custom-activation-function-in-tensorflow-for-deep-neural-networks-from-scratch-tutorial-b12e00652e24">Ref</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">customize</span> <span class="n">activation</span>
+
+<span class="c1">#work/python/keras-1</span>
+
+<span class="c1">#work/DNN/Comparison-activation</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Example-1">
+<h3>Example 1<a class="headerlink" href="#Example-1" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Radial_basis_function">Gaussin Radial Basis Function</a> is defined as</p>
+<div class="math notranslate nohighlight">
+\[\phi(x) = e^{-(\epsilon r)^2}\]</div>
+<p>We found out that radial basis function works pretty good as an activation in a network, this will be demonstrated in the following tutorials. The raial basis function only makes a difference in an interval close to the center which is similar to the idea of “on-and-off” of an activation function.</p>
+<p>In a dimension 1 space, let us set activation to be <span class="math notranslate nohighlight">\(\phi(x)=e^{-x^2}\)</span>. Since this is not in TensorFlow’s list of activation functions <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/activations">https://www.tensorflow.org/api_docs/python/tf/keras/activations</a>, we will use it for demonstration of customizing activation function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#######################################</span>
+<span class="c1">#define the activation function</span>
+<span class="k">def</span> <span class="nf">rbf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">#######################################</span>
+<span class="c1">#define the derivative of the activation function</span>
+<span class="k">def</span> <span class="nf">d_rbf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">rbf</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#######################################</span>
+<span class="c1">#we couldn&#39;t use “d_rbf” as an activation function if we wanted to</span>
+<span class="c1">#because tensorflow doesn&#39;t know how to calculate the gradients of that function.</span>
+<span class="k">def</span> <span class="nf">rbf_grad</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_gr</span> <span class="o">=</span> <span class="n">d_rbf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>    <span class="c1">#defining the gradient.</span>
+    <span class="k">return</span> <span class="n">grad</span> <span class="o">*</span> <span class="n">n_gr</span>
+
+<span class="k">def</span> <span class="nf">py_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">Tout</span><span class="p">,</span> <span class="n">stateful</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Need to generate a unique name to avoid duplicates:</span>
+    <span class="n">rnd_name</span> <span class="o">=</span> <span class="s1">&#39;PyFuncGrad&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1E+2</span><span class="p">))</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">RegisterGradient</span><span class="p">(</span><span class="n">rnd_name</span><span class="p">)(</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">gradient_override_map</span><span class="p">({</span><span class="s2">&quot;PyFunc&quot;</span><span class="p">:</span> <span class="n">rnd_name</span><span class="p">,</span> <span class="s2">&quot;PyFuncStateless&quot;</span><span class="p">:</span> <span class="n">rnd_name</span><span class="p">}):</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">py_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">Tout</span><span class="p">,</span> <span class="n">stateful</span><span class="o">=</span><span class="n">stateful</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tf_rbf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;rbf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">as</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">py_func</span><span class="p">(</span><span class="n">rbf</span><span class="p">,</span>   <span class="c1">#forward pass function</span>
+                    <span class="p">[</span><span class="n">x</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">grad</span><span class="o">=</span> <span class="n">rbf_grad</span><span class="p">)</span> <span class="c1">#the function that overrides gradient</span>
+        <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_shape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_shape</span><span class="p">())</span>     <span class="c1">#when using with the code, it is used to specify the rank of the input.</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Training data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">x_train</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model_rbf</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model_rbf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="n">rbf</span><span class="p">))</span>     <span class="c1">#no need to put quote around rbf</span>
+<span class="n">model_rbf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">model_rbf</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">model_rbf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># model.summary()</span>
+<span class="n">model_rbf</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>   <span class="c1">#test if model is trained successfully</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[array([[-2.6122294e-03,  1.6906145e-03, -2.2995217e+00]], dtype=float32),
+ array([-4.2092835e-04,  2.8977118e-04,  4.8410983e+00], dtype=float32),
+ array([[  57.36145 ],
+        [  59.288876],
+        [-115.397705]], dtype=float32),
+ array([55.409958], dtype=float32)]
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Cutomize-the-loss-function">
+<h2>Cutomize the loss function<a class="headerlink" href="#Cutomize-the-loss-function" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="n">rbf</span><span class="p">))</span>     <span class="c1">#no need to put quote around rbf</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># customize loss</span>
+<span class="k">def</span> <span class="nf">custom_loss</span><span class="p">(</span><span class="n">ytrue</span><span class="p">,</span><span class="n">ypred</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">square</span><span class="p">((</span><span class="n">ytrue</span><span class="o">-</span><span class="n">ypred</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">val</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">custom_loss</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>    <span class="c1">#test if model is trained successfully</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[array([[ 4.8343139e-05, -1.8820183e-01,  5.0299735e-05]], dtype=float32),
+ array([1.9036455e-05, 5.2888556e-03, 2.9459905e-05], dtype=float32),
+ array([[ 5.030023 ],
+        [-4.4802723],
+        [ 4.8218493]], dtype=float32),
+ array([3.9862227], dtype=float32)]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -159,6 +615,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sec4.html" class="btn btn-neutral float-right" title="Tutorial 4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sec3.html" class="btn btn-neutral float-left" title="Tutorial 3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

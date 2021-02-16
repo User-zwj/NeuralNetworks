@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Setup a neural network using TensorFlow &mdash; NeuralNetworks 1.0 documentation</title>
+  <title>Setup a neural network using TensorFlow2.x &mdash; NeuralNetworks 1.0 documentation</title>
   
 
   
@@ -31,12 +31,16 @@
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial 3" href="sec3.html" />
+    <link rel="prev" title="Tutorial 2" href="sec2.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,8 +86,25 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="sec1.html">Demonstration</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sec1.html">Tutorial 1</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="sec2.html">Tutorial 2</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Setup a neural network using TensorFlow2.x</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#4-ways-to-build-the-network">4 ways to build the network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Train-the-neural-network">Train the neural network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Step-1:-compile">Step 1: compile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-2:-fit">Step 2: fit</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Activation-function">Activation function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Attributes-and-Methods">Attributes and Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#save-and-load-model">save and load model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sec3.html">Tutorial 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sec4.html">Tutorial 4</a></li>
 </ul>
 
             
@@ -130,7 +151,9 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Setup a neural network using TensorFlow</li>
+          <li><a href="sec2.html">Tutorial 2</a> &raquo;</li>
+        
+      <li>Setup a neural network using TensorFlow2.x</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -404,52 +427,97 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Setup-a-neural-network-using-TensorFlow">
-<h1>Setup a neural network using TensorFlow<a class="headerlink" href="#Setup-a-neural-network-using-TensorFlow" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Setup-a-neural-network-using-TensorFlow2.x">
+<h1>Setup a neural network using TensorFlow2.x<a class="headerlink" href="#Setup-a-neural-network-using-TensorFlow2.x" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will start using TensorFlow to build our very first neural network.</p>
+<p>We will also talk about the compiling and fitting processes, how to save and load model to save time for next time.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">Sequential</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span></span><span class="c1"># ! pip install tensorflow --upgrade</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Method 1</span>
-<span class="c1"># define NN with 3 hidden layers</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="4-ways-to-build-the-network">
+<h2>4 ways to build the network<a class="headerlink" href="#4-ways-to-build-the-network" title="Permalink to this headline">¶</a></h2>
+<p>We introduce four ways as a demonstration to build the most simple neural network without using any activation function or speical structure.</p>
+<p>The following methods are all for fully connected neural networks. Check <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers">https://www.tensorflow.org/api_docs/python/tf/keras/layers</a> if it is not fully connected.</p>
+<p><strong>Example</strong> (Not fully connected model)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,))</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">input1</span><span class="p">)</span>
+<span class="n">input2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,))</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">input2</span><span class="p">)</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Average</span><span class="p">()([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">])</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">4</span><span class="p">)(</span><span class="n">avg</span><span class="p">)</span>
+<span class="n">model0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input1</span><span class="p">,</span> <span class="n">input2</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Average#example">https://www.tensorflow.org/api_docs/python/tf/keras/layers/Average#example</a></p>
+<p>Since TensorFlow will randomly initialize all the parameter values when you construct a model, <code class="docutils literal notranslate"><span class="pre">model.weights</span></code> will return different values each time you run it. To initalize the model with the same values, you can use <code class="docutils literal notranslate"><span class="pre">tf.random.set_seed(1234)</span></code> at the begining of constructing the model. <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/random/set_seed">https://www.tensorflow.org/api_docs/python/tf/random/set_seed</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Method 1</span>
+<span class="c1">## define NN with 3 hidden layers</span>
+<span class="c1">## input:8 -&gt; 10 -&gt; 8 -&gt; 3 -&gt; output:1</span>
 <span class="n">model1</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)))</span>  <span class="c1">#or input_dim=8</span>
 <span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>  <span class="c1">#activation=&#39;sigmoid&#39;</span>
 <span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="c1"># model.weights</span>
-<span class="n">model1</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="c1"># model.weights   #return the weights and biases (randomly initialized by TensorFlow)</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>   <span class="c1">#summary of the structure of the neural network</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;sequential&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense (Dense)                (None, 10)                90
+_________________________________________________________________
+dense_1 (Dense)              (None, 8)                 88
+_________________________________________________________________
+dense_2 (Dense)              (None, 3)                 27
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 4
+=================================================================
+Total params: 209
+Trainable params: 209
+Non-trainable params: 0
+_________________________________________________________________
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Method 2</span>
-<span class="c1"># define NN with 3 hidden layers</span>
+<span></span><span class="c1">## Method 2</span>
+<span class="c1">## define NN with 3 hidden layers</span>
+<span class="c1">## input:8 -&gt; 10 -&gt; 8 -&gt; 3 -&gt; output:1</span>
 <span class="n">model2</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)))</span>
 <span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
@@ -458,27 +526,41 @@ div.rendered_html tbody tr:hover {
 <span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># model1 == model2</span>
-
 <span class="n">model2</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;sequential_1&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense_4 (Dense)              (None, 10)                90
+_________________________________________________________________
+dense_5 (Dense)              (None, 8)                 88
+_________________________________________________________________
+dense_6 (Dense)              (None, 3)                 27
+_________________________________________________________________
+dense_7 (Dense)              (None, 1)                 4
+=================================================================
+Total params: 209
+Trainable params: 209
+Non-trainable params: 0
+_________________________________________________________________
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Method 3</span>
-<span class="c1"># define NN with 3 hidden layers</span>
+<span></span><span class="c1">## Method 3</span>
+<span class="c1">## define NN with 3 hidden layers</span>
+<span class="c1">## input:8 -&gt; 10 -&gt; 8 -&gt; 3 -&gt; output:1</span>
 <span class="n">model3</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model3</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">model3</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
@@ -490,273 +572,617 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;sequential_2&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense_8 (Dense)              (None, 10)                90
+_________________________________________________________________
+dense_9 (Dense)              (None, 8)                 88
+_________________________________________________________________
+dense_10 (Dense)             (None, 3)                 27
+_________________________________________________________________
+dense_11 (Dense)             (None, 1)                 4
+=================================================================
+Total params: 209
+Trainable params: 209
+Non-trainable params: 0
+_________________________________________________________________
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Method 4</span>
-<span class="c1"># example of a model defined with the functional api</span>
+<span></span><span class="c1">## Method 4</span>
+<span class="c1">## example of a model defined with the functional api</span>
+<span class="c1">## input:8 -&gt; 10 -&gt; 8 -&gt; 3 -&gt; output:1</span>
 <span class="n">x_in</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,))</span>
 <span class="n">x1</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)(</span><span class="n">x_in</span><span class="p">)</span>
 <span class="n">x2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">)(</span><span class="n">x1</span><span class="p">)</span>
 <span class="n">x3</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">)(</span><span class="n">x2</span><span class="p">)</span>
 <span class="n">x_out</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">model4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x_in</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x_out</span><span class="p">)</span>    <span class="c1">#model???</span>
-
-<span class="c1"># model == model2</span>
+<span class="n">model4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x_in</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x_out</span><span class="p">)</span>
 
 <span class="n">model4</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;model&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+input_2 (InputLayer)         [(None, 8)]               0
+_________________________________________________________________
+dense_12 (Dense)             (None, 10)                90
+_________________________________________________________________
+dense_13 (Dense)             (None, 8)                 88
+_________________________________________________________________
+dense_14 (Dense)             (None, 3)                 27
+_________________________________________________________________
+dense_15 (Dense)             (None, 1)                 4
+=================================================================
+Total params: 209
+Trainable params: 209
+Non-trainable params: 0
+_________________________________________________________________
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model1</span><span class="o">.</span><span class="n">metrics_names</span>
+<span></span><span class="n">model1</span><span class="o">.</span><span class="n">metrics_names</span>    <span class="c1">#Note: metrics_names are available only after a keras.Model has been trained/evaluated on actual data.</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Train-the-neural-network">
+<h2>Train the neural network<a class="headerlink" href="#Train-the-neural-network" title="Permalink to this headline">¶</a></h2>
+<p>After we constructed our first neural network, we will need to feed it with our training data to train the model. There are two steps needed, compile and fit.</p>
+<div class="section" id="Step-1:-compile">
+<h3>Step 1: compile<a class="headerlink" href="#Step-1:-compile" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">compile</span><span class="p">(</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">weighted_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">run_eagerly</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">steps_per_execution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>eg.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;Adam&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;mse&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metrics_names</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile">https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile</a></p>
+<p><strong>- optimizer</strong></p>
+<p>Specify the algorithm to approximate that is used to find the minimum of the loss function.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.optimizers.Adam</span></code> or <code class="docutils literal notranslate"><span class="pre">Adam</span></code> <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam">https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam</a></p></li>
+</ul>
+<p>check <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/optimizers">https://www.tensorflow.org/api_docs/python/tf/keras/optimizers</a> for more optimizers</p>
+<p><strong>- loss</strong></p>
+<p>Loss function is used to measure the difference between predict and truth. The training process is trying to minimize this value.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'mean_absolute_error'</span></code> <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses/MeanAbsoluteError">https://www.tensorflow.org/api_docs/python/tf/keras/losses/MeanAbsoluteError</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'mean_squared_error'</span></code> <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses/MeanSquaredError">https://www.tensorflow.org/api_docs/python/tf/keras/losses/MeanSquaredError</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'categorical_crossentropy'</span></code> <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses/CategoricalCrossentropy">https://www.tensorflow.org/api_docs/python/tf/keras/losses/CategoricalCrossentropy</a></p></li>
+</ul>
+<p>check <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses">https://www.tensorflow.org/api_docs/python/tf/keras/losses</a> for more loss functions</p>
+</div>
+<div class="section" id="Step-2:-fit">
+<h3>Step 2: fit<a class="headerlink" href="#Step-2:-fit" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_epoch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">validation_steps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validation_batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validation_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">max_queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit">https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit</a></p>
+<p><strong>- batch_size:</strong> Total number of training examples present in a single batch.</p>
+<p><strong>- epochs</strong> (times the model sees the data): The number of passes of training data</p>
+<p><strong>- verbose</strong> 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch.</p>
+<p>We take <code class="docutils literal notranslate"><span class="pre">model1</span></code> as an example to demonstrate how to train a model as follows.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1">## training data</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="n">size</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="n">size</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span>
+<span></span><span class="n">model1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span><span class="n">train_y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tensorflow.python.keras.callbacks.History at 0x7f04eddd3f10&gt;
+</pre></div></div>
 </div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span>    <span class="c1">#work/python/keras-1</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">model1</span><span class="o">.</span><span class="n">metrics_names</span>   <span class="c1">#Note: metrics_names are available only after a keras.Model has been trained/evaluated on actual data.</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;loss&#39;]
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Activation-function">
+<h2>Activation function<a class="headerlink" href="#Activation-function" title="Permalink to this headline">¶</a></h2>
+<p>In the models we constructed above, we didn’t specifiy any activation function, now we will have a short discussion here about it. After adding activation function during construction process, the following training process is the same.</p>
+<p>check <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/activations">https://www.tensorflow.org/api_docs/python/tf/keras/activations</a></p>
+<p>eg.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
+<p>The purpose of the activation function is to introduce non-linearity into the output of a neuron. - Activation functions have a major effect on the neural network’s ability to converge and the convergence speed, or in some cases, activation functions might prevent neural networks from converging in the first place - The activation function is a mathematical “gate” in between the input feeding the current neuron and its output going to the next layer. - Non-linear activation functions can help
+the network learn complex data, compute and learn almost any function representing a question</p>
+<p>The activation function is attached to each neuron in the network, and determines whether it should be activated (“fired”) or not, based on whether each neuron’s input is relevant for the model’s prediction. Activation functions also help normalize the output of each neuron to a range between 1 and 0 or between -1 and 1. An additional aspect of activation functions is that they must be computationally efficient because they are calculated across thousands or even millions of neurons for each
+data sample.</p>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model1</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>    <span class="c1">#work/python/keras-1</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">layer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="section" id="Attributes-and-Methods">
+<h2>Attributes and Methods<a class="headerlink" href="#Attributes-and-Methods" title="Permalink to this headline">¶</a></h2>
+<p>We have covered the process of building and training a neural network. Now we will talk about some commonly-used attributes and methods of the model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">predict</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">activation</span>
+<span></span><span class="c1">## model1.weights and model1.trainable_variables are the same for the above model.</span>
 
-<span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">weights</span> <span class="o">==</span> <span class="n">model1</span><span class="o">.</span><span class="n">trainable_variables</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
 </div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">loss</span>      <span class="c1">#work/python/keras-1</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1">## print out the weights as a list of Variable objects.</span>
+<span class="c1">## You can use indexing `model1.weights[i]` to print the specific parameter values</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">weights</span>    <span class="c1">#A list of Variable objects.</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;tf.Variable &#39;dense/kernel:0&#39; shape=(8, 10) dtype=float32, numpy=
+ array([[-4.7745174e-03, -4.2704954e-03,  2.0147045e-03, -6.0886233e-03,
+          1.6906815e-04,  2.9910391e-03, -1.2138552e-02,  3.9200662e-03,
+          9.7083038e-04,  7.8460521e-01],
+        [ 1.5564065e-04, -4.9153781e-03,  5.1136962e-03, -2.8920257e-03,
+          2.2271478e-03,  1.7226229e-03,  8.3738118e-03,  2.4565703e-03,
+         -1.5089725e-03,  1.2535113e+00],
+        [-3.8777268e-04, -2.9222372e-03,  6.7038345e-06,  4.1895998e-03,
+          4.2966832e-03, -5.6971674e-04,  1.0847520e-02, -5.1253634e-03,
+          1.1978279e-02, -5.0348192e-01],
+        [ 1.6874436e-03, -1.5508595e-03,  2.1394780e-03, -1.0563543e-03,
+          5.0894222e-03, -4.9723790e-04,  6.3263075e-03, -1.1619112e-03,
+          2.2266451e-02, -4.8005381e-01],
+        [-6.8500419e-03, -6.9415063e-04, -7.9676770e-03, -8.6388607e-03,
+          2.9368100e-03, -5.4954947e-04, -4.4616669e-02,  3.6588751e-03,
+          4.3160364e-02, -9.6152526e-01],
+        [ 9.4094407e-03, -8.9300368e-03,  1.7354518e-02,  3.4303269e-03,
+          8.9213355e-03,  1.8260462e-03,  6.0392465e-02, -3.7092536e-03,
+         -1.2123023e-02,  3.2583442e-01],
+        [-5.9387786e-03,  1.2400638e-02, -2.6780754e-02, -7.2189525e-04,
+         -1.4138363e-02, -8.3298488e-03, -8.0208711e-02,  1.5652748e-03,
+         -7.2468556e-03, -5.2984840e-01],
+        [-1.9919792e-02,  1.7081356e-02, -2.8013261e-02, -9.3168663e-03,
+         -1.7722011e-02,  9.1942446e-04, -1.0095567e-01,  7.9141464e-03,
+         -3.3312779e-02,  9.3696219e-01]], dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense/bias:0&#39; shape=(10,) dtype=float32, numpy=
+ array([-0.00090622,  0.00225138, -0.00137449, -0.00284359, -0.00196443,
+         0.00044105, -0.00880217,  0.00367871, -0.00408877, -0.0355053 ],
+       dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_1/kernel:0&#39; shape=(10, 8) dtype=float32, numpy=
+ array([[ 1.6610695e-02, -4.4616457e-02, -1.2056253e-02,  5.4629697e-03,
+         -2.7306316e-02, -9.1774873e-03, -2.3510750e-02, -1.5505937e-02],
+        [-3.4485850e-03, -7.7643790e-03,  1.1894311e-02, -5.2842690e-04,
+         -5.2427586e-02,  3.5107672e-02,  5.3701889e-02,  6.2181547e-02],
+        [-1.7028207e-02,  3.5473768e-02,  7.4953502e-03,  7.4057723e-04,
+         -1.8160915e-02,  3.2050315e-02,  5.2546160e-03, -3.5252605e-02],
+        [ 2.1062141e-02,  6.6266587e-04, -8.4110899e-03,  5.1781354e-03,
+         -1.9828081e-02, -6.5315098e-02, -2.7929280e-02, -2.8300490e-02],
+        [-2.1472001e-02, -1.2813461e-01,  2.7740786e-03,  1.1994856e-03,
+         -5.1354099e-02,  4.0713474e-02,  1.9818749e-02, -5.3021036e-02],
+        [-1.0057427e-02,  1.3237772e-02, -6.4307638e-03, -3.3999379e-03,
+         -1.3645886e-02,  2.3460636e-02,  3.4027193e-02,  1.6360048e-03],
+        [-2.9350813e-02,  9.9163130e-03,  9.5371269e-03,  1.9868432e-02,
+         -1.0142738e-02,  2.3424421e-02,  6.5723337e-02, -3.0404568e-02],
+        [ 1.8207254e-02,  3.4970853e-02, -3.7737746e-02, -2.3302163e-03,
+          1.9947046e-02,  2.4072958e-02, -7.1173753e-03,  3.3852351e-03],
+        [ 4.4220746e-03, -1.9076800e-02,  2.1700609e-02,  2.3708069e-03,
+         -9.5671816e-03, -3.4933933e-03, -6.3254600e-03, -8.0997832e-03],
+        [-4.2060259e-04, -5.4643146e-04,  4.1923579e-04,  7.0979613e-01,
+         -5.0489826e-04,  2.5876346e-03,  1.6136379e-03, -2.1638053e-03]],
+       dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_1/bias:0&#39; shape=(8,) dtype=float32, numpy=
+ array([-1.4262497e-05, -3.3091151e-04,  6.2239333e-04, -6.1032824e-02,
+         1.8185183e-05,  2.0832885e-03,  1.5743576e-03, -6.9828762e-04],
+       dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_2/kernel:0&#39; shape=(8, 3) dtype=float32, numpy=
+ array([[-1.6414206e-02,  3.2459229e-02, -5.2838470e-04],
+        [-6.3802660e-02, -2.3032866e-02, -6.1672286e-04],
+        [ 5.3341020e-02, -6.5274753e-02,  5.0605828e-04],
+        [-2.1313810e-04,  6.4152904e-04,  4.0123427e-01],
+        [ 4.9233299e-02, -3.6553152e-02, -1.6180574e-04],
+        [ 2.4321323e-02,  3.7152902e-03, -2.0321668e-03],
+        [-4.1671567e-02,  4.7291648e-02, -4.2041513e-04],
+        [-1.0840869e-02, -9.0852536e-02, -1.6503409e-04]], dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_2/bias:0&#39; shape=(3,) dtype=float32, numpy=array([-0.00055232,  0.00057546, -0.01981586], dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_3/kernel:0&#39; shape=(3, 1) dtype=float32, numpy=
+ array([[ 1.4687005e-04],
+        [-6.5220369e-04],
+        [ 1.9679068e-01]], dtype=float32)&gt;,
+ &lt;tf.Variable &#39;dense_3/bias:0&#39; shape=(1,) dtype=float32, numpy=array([-0.03459695], dtype=float32)&gt;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">epoch</span>
+<span></span><span class="c1">## Only print out the value</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>         <span class="c1">#A list of arrays, weights and biases every other term</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[array([[-4.7745174e-03, -4.2704954e-03,  2.0147045e-03, -6.0886233e-03,
+          1.6906815e-04,  2.9910391e-03, -1.2138552e-02,  3.9200662e-03,
+          9.7083038e-04,  7.8460521e-01],
+        [ 1.5564065e-04, -4.9153781e-03,  5.1136962e-03, -2.8920257e-03,
+          2.2271478e-03,  1.7226229e-03,  8.3738118e-03,  2.4565703e-03,
+         -1.5089725e-03,  1.2535113e+00],
+        [-3.8777268e-04, -2.9222372e-03,  6.7038345e-06,  4.1895998e-03,
+          4.2966832e-03, -5.6971674e-04,  1.0847520e-02, -5.1253634e-03,
+          1.1978279e-02, -5.0348192e-01],
+        [ 1.6874436e-03, -1.5508595e-03,  2.1394780e-03, -1.0563543e-03,
+          5.0894222e-03, -4.9723790e-04,  6.3263075e-03, -1.1619112e-03,
+          2.2266451e-02, -4.8005381e-01],
+        [-6.8500419e-03, -6.9415063e-04, -7.9676770e-03, -8.6388607e-03,
+          2.9368100e-03, -5.4954947e-04, -4.4616669e-02,  3.6588751e-03,
+          4.3160364e-02, -9.6152526e-01],
+        [ 9.4094407e-03, -8.9300368e-03,  1.7354518e-02,  3.4303269e-03,
+          8.9213355e-03,  1.8260462e-03,  6.0392465e-02, -3.7092536e-03,
+         -1.2123023e-02,  3.2583442e-01],
+        [-5.9387786e-03,  1.2400638e-02, -2.6780754e-02, -7.2189525e-04,
+         -1.4138363e-02, -8.3298488e-03, -8.0208711e-02,  1.5652748e-03,
+         -7.2468556e-03, -5.2984840e-01],
+        [-1.9919792e-02,  1.7081356e-02, -2.8013261e-02, -9.3168663e-03,
+         -1.7722011e-02,  9.1942446e-04, -1.0095567e-01,  7.9141464e-03,
+         -3.3312779e-02,  9.3696219e-01]], dtype=float32),
+ array([-0.00090622,  0.00225138, -0.00137449, -0.00284359, -0.00196443,
+         0.00044105, -0.00880217,  0.00367871, -0.00408877, -0.0355053 ],
+       dtype=float32),
+ array([[ 1.6610695e-02, -4.4616457e-02, -1.2056253e-02,  5.4629697e-03,
+         -2.7306316e-02, -9.1774873e-03, -2.3510750e-02, -1.5505937e-02],
+        [-3.4485850e-03, -7.7643790e-03,  1.1894311e-02, -5.2842690e-04,
+         -5.2427586e-02,  3.5107672e-02,  5.3701889e-02,  6.2181547e-02],
+        [-1.7028207e-02,  3.5473768e-02,  7.4953502e-03,  7.4057723e-04,
+         -1.8160915e-02,  3.2050315e-02,  5.2546160e-03, -3.5252605e-02],
+        [ 2.1062141e-02,  6.6266587e-04, -8.4110899e-03,  5.1781354e-03,
+         -1.9828081e-02, -6.5315098e-02, -2.7929280e-02, -2.8300490e-02],
+        [-2.1472001e-02, -1.2813461e-01,  2.7740786e-03,  1.1994856e-03,
+         -5.1354099e-02,  4.0713474e-02,  1.9818749e-02, -5.3021036e-02],
+        [-1.0057427e-02,  1.3237772e-02, -6.4307638e-03, -3.3999379e-03,
+         -1.3645886e-02,  2.3460636e-02,  3.4027193e-02,  1.6360048e-03],
+        [-2.9350813e-02,  9.9163130e-03,  9.5371269e-03,  1.9868432e-02,
+         -1.0142738e-02,  2.3424421e-02,  6.5723337e-02, -3.0404568e-02],
+        [ 1.8207254e-02,  3.4970853e-02, -3.7737746e-02, -2.3302163e-03,
+          1.9947046e-02,  2.4072958e-02, -7.1173753e-03,  3.3852351e-03],
+        [ 4.4220746e-03, -1.9076800e-02,  2.1700609e-02,  2.3708069e-03,
+         -9.5671816e-03, -3.4933933e-03, -6.3254600e-03, -8.0997832e-03],
+        [-4.2060259e-04, -5.4643146e-04,  4.1923579e-04,  7.0979613e-01,
+         -5.0489826e-04,  2.5876346e-03,  1.6136379e-03, -2.1638053e-03]],
+       dtype=float32),
+ array([-1.4262497e-05, -3.3091151e-04,  6.2239333e-04, -6.1032824e-02,
+         1.8185183e-05,  2.0832885e-03,  1.5743576e-03, -6.9828762e-04],
+       dtype=float32),
+ array([[-1.6414206e-02,  3.2459229e-02, -5.2838470e-04],
+        [-6.3802660e-02, -2.3032866e-02, -6.1672286e-04],
+        [ 5.3341020e-02, -6.5274753e-02,  5.0605828e-04],
+        [-2.1313810e-04,  6.4152904e-04,  4.0123427e-01],
+        [ 4.9233299e-02, -3.6553152e-02, -1.6180574e-04],
+        [ 2.4321323e-02,  3.7152902e-03, -2.0321668e-03],
+        [-4.1671567e-02,  4.7291648e-02, -4.2041513e-04],
+        [-1.0840869e-02, -9.0852536e-02, -1.6503409e-04]], dtype=float32),
+ array([-0.00055232,  0.00057546, -0.01981586], dtype=float32),
+ array([[ 1.4687005e-04],
+        [-6.5220369e-04],
+        [ 1.9679068e-01]], dtype=float32),
+ array([-0.03459695], dtype=float32)]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1">## Return the weights and biases for a specified layer</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">batch</span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[array([[ 1.4687005e-04],
+        [-6.5220369e-04],
+        [ 1.9679068e-01]], dtype=float32),
+ array([-0.03459695], dtype=float32)]
+</pre></div></div>
 </div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">save</span> <span class="n">model</span>     <span class="c1">#work/python/keras</span>
+<span></span><span class="c1">## model prediction  #https://www.tensorflow.org/api_docs/python/tf/keras/Model#predict</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0.25113365],
+       [-0.10175361],
+       [-0.17832017],
+       [-0.07764949],
+       [ 0.20510267],
+       [-0.12055007],
+       [ 0.05584735],
+       [-0.05570502],
+       [ 0.07623062],
+       [-0.06173233]], dtype=float32)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="save-and-load-model">
+<h2>save and load model<a class="headerlink" href="#save-and-load-model" title="Permalink to this headline">¶</a></h2>
+<p>It is important to know how to save and load a given model especially when the model is expensive to train twice or you want to reuse the model later.</p>
+<p><a class="reference external" href="https://www.tensorflow.org/guide/keras/save_and_serialize">https://www.tensorflow.org/guide/keras/save_and_serialize</a></p>
+<p>Keras also supports saving a single HDF5 file containing the model’s architecture, weights values, and <code class="docutils literal notranslate"><span class="pre">compile()</span></code> information. It is a light-weight alternative to SavedModel.</p>
+<p><a class="reference external" href="https://www.tensorflow.org/guide/keras/save_and_serialize#keras_h5_format">https://www.tensorflow.org/guide/keras/save_and_serialize#keras_h5_format</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## save model</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;Model/model1&#39;</span><span class="p">)</span> <span class="c1">#or tf.keras.models.save_model()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+INFO:tensorflow:Assets written to: Model/model1/assets
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## load model</span>
+<span class="n">model_load</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;Model/model1&#39;</span><span class="p">)</span>
+<span class="n">model_load</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="c1">##just for testing</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0.25113365],
+       [-0.10175361],
+       [-0.17832017],
+       [-0.07764949],
+       [ 0.20510267],
+       [-0.12055007],
+       [ 0.05584735],
+       [-0.05570502],
+       [ 0.07623062],
+       [-0.06173233]], dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## save weights</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="s1">&#39;Model/model1_weights&#39;</span><span class="p">)</span>    <span class="c1">#3 files</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## To use load_weights(), you first need to have a model with the same structure</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)))</span>  <span class="c1">#or input_dim=8</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>  <span class="c1">#activation=&#39;sigmoid&#39;</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="n">load</span> <span class="n">model</span>    <span class="c1">#work/python/keras</span>
-
-<span class="n">save</span> <span class="n">structure</span>    <span class="c1">#work/python/keras</span>
-
-<span class="n">save</span> <span class="n">weights</span>      <span class="c1">#work/python/keras</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s1">&#39;Model/model1_weights&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;tensorflow.python.training.tracking.util.CheckpointLoadStatus at 0x7f04e444e820&gt;
+</pre></div></div>
 </div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
-<span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>           <span class="c1">#work/DNN/ODE-tf/all</span>
-<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
-    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
-    <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">restore_name</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model restored.&quot;</span><span class="p">)</span>
+<span></span><span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="c1">##just for testing</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0.25113365],
+       [-0.10175361],
+       [-0.17832017],
+       [-0.07764949],
+       [ 0.20510267],
+       [-0.12055007],
+       [ 0.05584735],
+       [-0.05570502],
+       [ 0.07623062],
+       [-0.06173233]], dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## To save time constructing the model, we can also do the following</span>
+
+<span class="k">def</span> <span class="nf">build_model</span><span class="p">():</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># you can either compile or not the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s1">&#39;Model/model1_weights&#39;</span><span class="p">)</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0.25113365],
+       [-0.10175361],
+       [-0.17832017],
+       [-0.07764949],
+       [ 0.20510267],
+       [-0.12055007],
+       [ 0.05584735],
+       [-0.05570502],
+       [ 0.07623062],
+       [-0.06173233]], dtype=float32)
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -805,12 +1231,22 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sec3.html" class="btn btn-neutral float-right" title="Tutorial 3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sec2.html" class="btn btn-neutral float-left" title="Tutorial 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

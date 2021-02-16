@@ -1,5 +1,5 @@
-Demonstration
-=============
+Tutorial 1
+==========
 
 
 .. toctree::

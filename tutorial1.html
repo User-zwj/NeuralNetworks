@@ -31,13 +31,16 @@
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Demonstration" href="sec1.html" /> 
+    <link rel="next" title="Tutorial 2" href="sec2.html" />
+    <link rel="prev" title="Tutorial 1" href="sec1.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,9 +87,8 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="sec1.html">Demonstration</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Intro to TensorFlow 2.x</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Get-to-Know-TensorFlow2.x">Get to Know TensorFlow2.x</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="sec1.html">Tutorial 1</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Intro to TensorFlow 2.x</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#History-between-Keras-and-TensorFlow:">History between Keras and TensorFlow:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Keras-and-tf.keras">Keras and tf.keras</a></li>
 </ul>
@@ -114,6 +116,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#Some-common-seen-commands-in-TensorFlow1.x">Some common seen commands in TensorFlow1.x</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sec2.html">Tutorial 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sec3.html">Tutorial 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sec4.html">Tutorial 4</a></li>
 </ul>
 
             
@@ -160,7 +165,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="sec1.html">Demonstration</a> &raquo;</li>
+          <li><a href="sec1.html">Tutorial 1</a> &raquo;</li>
         
       <li>Intro to TensorFlow 2.x</li>
     
@@ -447,11 +452,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>Content - <a class="reference external" href="#Get-to-Know-TensorFlow2.x">Get to Know TensorFlow2.x</a> - <a class="reference external" href="#History-between-Keras-and-TensorFlow:">History between Keras and TensorFlow</a> - <a class="reference external" href="#Keras-and-tf.keras">Keras and tf.keras</a> - <a class="reference external" href="#Eager-Execution">Eager Execution</a> - <a class="reference external" href="#Eager-execution">Eager execution</a> - <a class="reference external" href="#Graph-execution">Graph execution</a> - <a class="reference external" href="#Why-TensorFlow-adopted-Eager-Execution?">Why TensorFlow adopted Eager Execution?</a> - <a class="reference external" href="#Tensors">Tensors</a> - <a class="reference external" href="#Create-tensors">Create tensors</a> -
-<a class="reference external" href="#indexing">indexing</a> - <a class="reference external" href="#Operations-with-tensors">Operations with tensors</a> - <a class="reference external" href="#Variables">Variables</a> - <a class="reference external" href="#Operations-with-variables">Operations with variables</a> - <a class="reference external" href="#Extend">Extend</a> - <a class="reference external" href="#Hardware-selection-for-variables">Hardware selection for variables</a> - <a class="reference external" href="#function">function</a> - <a class="reference external" href="#gradient">gradient</a> - <a class="reference external" href="#Some-common-seen-commands-in-TensorFlow1.x">Some common seen commands in TensorFlow1.x</a></p>
-</div>
-<div class="section" id="Get-to-Know-TensorFlow2.x">
-<h1>Get to Know TensorFlow2.x<a class="headerlink" href="#Get-to-Know-TensorFlow2.x" title="Permalink to this headline">¶</a></h1>
+<p>Content - <a class="reference external" href="#Intro-to-TensorFlow2.x">Intro to TensorFlow2.x</a> - <a class="reference external" href="#History-between-Keras-and-TensorFlow:">History between Keras and TensorFlow</a> - <a class="reference external" href="#Keras-and-tf.keras">Keras and tf.keras</a> - <a class="reference external" href="#Eager-Execution">Eager Execution</a> - <a class="reference external" href="#Eager-execution">Eager execution</a> - <a class="reference external" href="#Graph-execution">Graph execution</a> - <a class="reference external" href="#Why-TensorFlow-adopted-Eager-Execution?">Why TensorFlow adopted Eager Execution?</a> - <a class="reference external" href="#Tensors">Tensors</a> - <a class="reference external" href="#Create-tensors">Create tensors</a> - <a class="reference external" href="#indexing">indexing</a> -
+<a class="reference external" href="#Operations-with-tensors">Operations with tensors</a> - <a class="reference external" href="#Variables">Variables</a> - <a class="reference external" href="#Operations-with-variables">Operations with variables</a> - <a class="reference external" href="#Extend">Extend</a> - <a class="reference external" href="#Hardware-selection-for-variables">Hardware selection for variables</a> - <a class="reference external" href="#function">function</a> - <a class="reference external" href="#gradient">gradient</a> - <a class="reference external" href="#Some-common-seen-commands-in-TensorFlow1.x">Some common seen commands in TensorFlow1.x</a></p>
 <p><strong>TensorFlow</strong> is an end-to-end framework and platform designed to build and train machine learning models, especially deep learning models.</p>
 <p><strong>Keras</strong> is a deep learning API written in Python, running on top of the machine learning platform TensorFlow.</p>
 <div class="section" id="History-between-Keras-and-TensorFlow:">
@@ -1898,8 +1900,10 @@ array([[ 3.,  7.],
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="sec2.html" class="btn btn-neutral float-right" title="Tutorial 2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="sec1.html" class="btn btn-neutral float-left" title="Demonstration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="sec1.html" class="btn btn-neutral float-left" title="Tutorial 1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
