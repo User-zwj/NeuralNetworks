@@ -24,6 +24,8 @@ Guidance to start working with TensorFlow
 - Customize the activation function
 - Cutomize the loss function
 
+[Note: tf.keras.losses.MSE shape problem]
+
 ## Tutorial4
 **Polynomial Approximation**
 - Linear regression
