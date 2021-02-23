@@ -32,3 +32,9 @@ Guidance to start working with TensorFlow
 - Polynomial Regression
 
 ## Tutorial5
+
+## Tutorial6
+**AutoGraph**
+- AutoGraph
+- Functions
+- Linear Regression Revisited
